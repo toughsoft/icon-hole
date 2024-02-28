@@ -24,20 +24,21 @@ export type ReadIconHole = ReadHole<Icon>;
 export type ReadWriteIconHole = ReadWriteHole<Icon>;
 
 export type IconHoleOptions<
-  Starred extends boolean | undefined = undefined,
+  Starred extends boolean = false,
 > = {
   tag?: string;
-  starred?: Starred;
   dynamoConfig?: DynamodbClientOptions;
+  starred?: Starred;
 };
 
+function create(options: Omit<IconHoleOptions, "starred">): ReadWriteIconHole;
 function create(options: IconHoleOptions<true>): ReadIconHole;
 function create(options: IconHoleOptions<false>): ReadWriteIconHole;
-function create(options: IconHoleOptions<undefined>): ReadWriteIconHole;
 function create(
   options: IconHoleOptions<boolean>,
 ): ReadIconHole | ReadWriteIconHole;
-function create<Starred extends boolean | undefined = undefined>({
+
+function create<Starred extends boolean>({
   starred,
   tag = "default",
   dynamoConfig = {},
