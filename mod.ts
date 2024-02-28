@@ -26,6 +26,7 @@ export type ReadWriteIconHole = ReadWriteHole<Icon>;
 export type IconHoleOptions<
   Starred extends boolean = false,
 > = {
+  table: string;
   tag?: string;
   dynamoConfig?: DynamodbClientOptions;
   starred?: Starred;
@@ -39,14 +40,15 @@ function create(
 ): ReadIconHole | ReadWriteIconHole;
 
 function create<Starred extends boolean>({
+  table,
   starred,
   tag = "default",
   dynamoConfig = {},
-}: IconHoleOptions<Starred> = {}): ReadIconHole | ReadWriteIconHole {
+}: IconHoleOptions<Starred>): ReadIconHole | ReadWriteIconHole {
   const client = dynamo(dynamoConfig);
   const commonOptions = {
     client,
-    table: "icon_store",
+    table,
     id: {
       key: "id",
       prefix: tag,
