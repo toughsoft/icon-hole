@@ -8,7 +8,7 @@ import {
   ReadWriteHole,
 } from "https://raw.githubusercontent.com/toughsoft/thing-hole/1.0.0/mod.ts";
 
-interface Icon {
+export interface Icon {
   imageDate: string;
   bytes: number;
   width: number;
@@ -18,20 +18,25 @@ interface Icon {
   uri: string;
 }
 
-interface IconHoleOptions<Starred extends boolean | undefined = undefined> {
+export type ReadIconHole = ReadHole<Icon>;
+export type ReadWriteIconHole = ReadWriteHole<Icon>;
+
+export interface IconHoleOptions<
+  Starred extends boolean | undefined = undefined,
+> {
   tag?: string;
   starred?: Starred;
   dynamoConfig?: DynamodbClientOptions;
 }
 
-function create(options: IconHoleOptions<true>): ReadHole<Icon>;
-function create(options: IconHoleOptions<false>): ReadWriteHole<Icon>;
-function create(options: IconHoleOptions<undefined>): ReadWriteHole<Icon>;
+function create(options: IconHoleOptions<true>): ReadIconHole;
+function create(options: IconHoleOptions<false>): ReadWriteIconHole;
+function create(options: IconHoleOptions<undefined>): ReadWriteIconHole;
 function create<Starred extends boolean | undefined = undefined>({
   starred,
   tag = "default",
   dynamoConfig = {},
-}: IconHoleOptions<Starred> = {}): ReadHole<Icon> | ReadWriteHole<Icon> {
+}: IconHoleOptions<Starred> = {}): ReadIconHole | ReadWriteIconHole {
   const client = dynamo(dynamoConfig);
   const commonOptions = {
     client,
