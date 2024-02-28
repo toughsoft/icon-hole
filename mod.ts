@@ -8,30 +8,35 @@ import {
   ReadWriteHole,
 } from "https://raw.githubusercontent.com/toughsoft/thing-hole/1.0.0/mod.ts";
 
-export interface Icon {
-  imageDate: string;
+export type Icon = {
+  imageData: string;
   bytes: number;
   width: number;
   height: number;
   query: string;
   title: string;
   uri: string;
-}
+  // TODO Remove boolean option once fully purged from DB
+  starred: number | boolean;
+};
 
 export type ReadIconHole = ReadHole<Icon>;
 export type ReadWriteIconHole = ReadWriteHole<Icon>;
 
-export interface IconHoleOptions<
+export type IconHoleOptions<
   Starred extends boolean | undefined = undefined,
-> {
+> = {
   tag?: string;
   starred?: Starred;
   dynamoConfig?: DynamodbClientOptions;
-}
+};
 
 function create(options: IconHoleOptions<true>): ReadIconHole;
 function create(options: IconHoleOptions<false>): ReadWriteIconHole;
 function create(options: IconHoleOptions<undefined>): ReadWriteIconHole;
+function create(
+  options: IconHoleOptions<boolean>,
+): ReadIconHole | ReadWriteIconHole;
 function create<Starred extends boolean | undefined = undefined>({
   starred,
   tag = "default",
