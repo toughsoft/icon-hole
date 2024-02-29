@@ -6,7 +6,7 @@ import {
   dynamoIndexDriver,
   ReadHole,
   ReadWriteHole,
-} from "https://raw.githubusercontent.com/toughsoft/thing-hole/1.0.0/mod.ts";
+} from "https://raw.githubusercontent.com/toughsoft/thing-hole/1.0.1/mod.ts";
 
 export type Icon = {
   imageData: string;
