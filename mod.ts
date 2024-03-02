@@ -1,12 +1,13 @@
-import dynamo, {
-  DynamodbClientOptions,
-} from "https://raw.githubusercontent.com/toughsoft/dynamodb-client/1.0.0/mod.ts";
 import {
-  dynamoDriver,
-  dynamoIndexDriver,
   ReadHole,
   ReadWriteHole,
-} from "https://raw.githubusercontent.com/toughsoft/thing-hole/1.0.1/mod.ts";
+} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.0/mod.ts";
+import dynamodb from "https://raw.githubusercontent.com/toughsoft/dynamodb-client/1.2.0/mod.ts";
+import {
+  DynamodbClient,
+  dynamoDriver,
+  dynamoIndexDriver,
+} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.0/dynamodb/mod.ts";
 
 export type Icon = {
   imageData: string;
@@ -28,9 +29,11 @@ export type IconHoleOptions<
 > = {
   table: string;
   tag?: string;
-  dynamoConfig?: DynamodbClientOptions;
+  dynamo?: DynamodbClient;
   starred?: Starred;
 };
+
+const DefaultDynamoClient = dynamodb();
 
 function create(options: Omit<IconHoleOptions, "starred">): ReadWriteIconHole;
 function create(options: IconHoleOptions<true>): ReadIconHole;
@@ -41,13 +44,12 @@ function create(
 
 function create<Starred extends boolean>({
   table,
+  dynamo,
   starred,
   tag = "default",
-  dynamoConfig = {},
 }: IconHoleOptions<Starred>): ReadIconHole | ReadWriteIconHole {
-  const client = dynamo(dynamoConfig);
   const commonOptions = {
-    client,
+    client: dynamo ?? DefaultDynamoClient,
     table,
     id: {
       key: "id",
