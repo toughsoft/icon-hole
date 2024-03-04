@@ -1,13 +1,13 @@
 import {
   ReadHole,
   ReadWriteHole,
-} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.0/mod.ts";
-import dynamodb from "https://raw.githubusercontent.com/toughsoft/dynamodb-client/1.2.0/mod.ts";
+} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.1/mod.ts";
+import dynamodb from "https://raw.githubusercontent.com/toughsoft/dynamodb-client/1.2.1/mod.ts";
 import {
   DynamodbClient,
   dynamoDriver,
   dynamoIndexDriver,
-} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.0/dynamodb/mod.ts";
+} from "https://raw.githubusercontent.com/toughsoft/thing-hole/2.0.1/dynamodb/mod.ts";
 
 export type Icon = {
   imageData: string;
